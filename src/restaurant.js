@@ -41,7 +41,32 @@
 // 4: Crie uma função `createMenu()` que, recebendo um objeto como parâmetro, retorna esse objeto no seguinte formato: 
 //  { fetchMenu: () => objetoPassadoPorParametro }.
 
-const createMenu = () => {};
+const createMenu = (obj) => {
+  let objetoRetornado = { 
+    fetchMenu: () => obj,
+    consumption: [],
+    order: (ordem) => {
+      if (Object.values(obj).includes(ordem)) {
+        objetoRetornado.consumption.push(ordem);
+      } else {
+        return console.log('Item indisponível');
+      }
+    },
+    pay: () => {
+      let soma = 0;
+      for (let i = 0; i < objetoRetornado.consumption.length; i += 1) {
+        if (Object.keys(obj.food).includes(objetoRetornado.consumption[i])) {
+          soma += Object.values(obj.food)[i];
+        }
+        if (Object.keys(obj.drink).includes(objetoRetornado.consumption[i])) {
+          soma += Object.values(obj.drink)[i];
+        }
+      }
+      return soma;
+    },
+  };
+  return objetoRetornado;
+};
 
 // Faça o item 5 no arquivo tests/restaurant.spec.js
 

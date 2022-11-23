@@ -49,11 +49,15 @@ describe('10 - Implemente a função `createMenu`, bem como seus casos de teste'
     expect(Object.keys(createMenu({ food: {}, drink: {} }).fetchMenu())).toEqual(['food', 'drink']);
 
     // 3: Verifique se o menu passado pra função createMenu() é idêntico ao menu recuperado pela função 'objetoRetornado.fetchMenu()'.
-    expect(createMenu({ food: {}, drink: {} })).toEqual(objetoRetornado.fetchMenu());
+    expect(meuRestaurante.fetchMenu()).toEqual({
+      food: { 'coxinha': 3.90, 'sanduiche': 9.90 },
+      drinks: { 'agua': 3.90, 'cerveja': 6.90 }
+    });
 
     // 4: Faça a implementação do item 4 do README no arquivo src/restaurant.js.
 
     // 5: Verifique se 'objetoRetornado.consumption', após a criação do menu, retorna um array vazio.
+    expect(meuRestaurante.consumption).toEqual([]);
 
     // 6: Faça a implementação do item 6 do README no arquivo src/restaurant.js.
     
@@ -62,14 +66,23 @@ describe('10 - Implemente a função `createMenu`, bem como seus casos de teste'
     // - senão, deve exibir a mensagem "Item indisponível" e não adicionar nada ao array
     // Ex: obj.order('coxinha') --> ['coxinha']
     // Ex: obj.order('picanha') --> Exibe "Item indisponível"
+    meuRestaurante.order('coxinha');
+    expect(meuRestaurante.consumption).toEqual(['coxinha']);
+    expect(meuRestaurante.order('pastel')).toEqual('Item indisponível');
 
     // 8: Faça a implementação do item 8 do README no arquivo src/restaurant.js.
 
     // 9: Verifique se, ao adicionar três pedidos em sequência, dentre bebidas e comidas, o array `objetoRetornado.consumption` contém os itens pedidos.
+    meuRestaurante.order('coxinha');
+    meuRestaurante.order('sanduiche');
+    meuRestaurante.order('cerveja');
+    expect(meuRestaurante.consumption).toContain('coxinha', 'sanduiche', 'cerveja');
 
     // 10: Verifique se a função `order` aceita que pedidos repetidos sejam acrescidos a `consumption`.
+    expect(meuRestaurante.consumption).toEqual(['coxinha', 'coxinha', 'sanduiche', 'cerveja']);
 
     // 11: Verifique se, ao chamar `objetoRetornado.pay()`, retorna-se a soma dos preços de tudo que foi pedido, acrescido de 10%, conforme registrado em `objetoRetornado.consumption`.
+    expect(meuRestaurante.pay()).toBeCloseTo(27.06);
 
     // 12: Faça a implementação do item 12 do README no arquivo src/restaurant.js.
 

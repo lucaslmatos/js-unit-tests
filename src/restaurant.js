@@ -46,23 +46,26 @@ const createMenu = (obj) => {
     fetchMenu: () => obj,
     consumption: [],
     order: (ordem) => {
-      if (Object.values(obj).includes(ordem)) {
+      if (Object.keys(obj.food).includes(ordem) || Object.keys(obj.drinks).includes(ordem)) {
         objetoRetornado.consumption.push(ordem);
       } else {
-        return console.log('Item indisponível');
+        return 'Item indisponível';
       }
     },
     pay: () => {
-      let soma = 0;
+      let somaFood = 0;
+      let somaDrinks = 0;
       for (let i = 0; i < objetoRetornado.consumption.length; i += 1) {
         if (Object.keys(obj.food).includes(objetoRetornado.consumption[i])) {
-          soma += Object.values(obj.food)[i];
+          const index = Object.keys(obj.food).indexOf(objetoRetornado.consumption[i]);
+          somaFood += parseFloat(Object.values(obj.food)[index]);
         }
-        if (Object.keys(obj.drink).includes(objetoRetornado.consumption[i])) {
-          soma += Object.values(obj.drink)[i];
+        if (Object.keys(obj.drinks).includes(objetoRetornado.consumption[i])) {
+          const index = Object.keys(obj.drinks).indexOf(objetoRetornado.consumption[i]);
+          somaDrinks += parseFloat(Object.values(obj.drinks)[index]);
         }
       }
-      return soma;
+      return parseFloat((somaFood + somaDrinks) * 1.1);
     },
   };
   return objetoRetornado;
